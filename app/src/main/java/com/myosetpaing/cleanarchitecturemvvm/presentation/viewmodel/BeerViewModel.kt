@@ -8,6 +8,7 @@ import com.myosetpaing.cleanarchitecturemvvm.framework.Interactors
 import com.myosetpaing.cleanarchitecturemvvm.utils.NetworkHelper
 import com.myosetpaing.cleanarchitecturemvvm.utils.Resource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -31,7 +32,7 @@ class BeerViewModel(
             _beerDataResponse.postValue(Resource.loading(null))
             if (networkHelper.isNetworkConnected()) {
                try {
-                   interactors.fetchBeer().let { data ->
+                   interactors.fetchBeer().collect { data ->
                        _beerDataResponse.postValue(Resource.success(data))
                    }
                } catch (e: Exception) {
